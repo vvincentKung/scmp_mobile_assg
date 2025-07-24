@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scmp_mobile_assg/widgets/login/helpers/validators.dart';
 
 class LoginForm extends StatelessWidget {
   const LoginForm({
@@ -31,13 +32,11 @@ class LoginForm extends StatelessWidget {
           TextFormField(
             decoration: InputDecoration(labelText: 'Email'),
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             onChanged: onEmailChanged,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your email';
+              if (!validateEmail(value)) {
+                return 'Invalid email address';
               }
               return null;
             },
@@ -45,14 +44,12 @@ class LoginForm extends StatelessWidget {
           TextFormField(
             decoration: InputDecoration(labelText: 'Password'),
             keyboardType: TextInputType.visiblePassword,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             onChanged: onPasswordChanged,
             obscureText: true,
             validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter your password';
+              if (!validatePassword(value)) {
+                return 'Invalid password: letter and number only, 6-10 characters';
               }
               return null;
             },
