@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
 import 'package:scmp_mobile_assg/widgets/home/home_page.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_button.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_form.dart';
@@ -34,11 +35,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               LoginButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    debugPrint(
-                      'Login successful',
-                    ); // TODO: Implement login logic
+                  if (!_formKey.currentState!.validate()) {
+                    return;
                   }
+                  debugPrint('Login successful');
+                  NavigatorManager().navigateToHome(context);
                 },
               ),
             ],
