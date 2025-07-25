@@ -24,7 +24,7 @@ class ApiService {
       final response = await client.post(
         Uri.parse('https://reqres.in/api/login?delay=5'),
         headers: {'x-api-key': 'reqres-free-v1'},
-        body: '{"email": "${request.email}", "password": "${request.password}"}',
+        body: request.toJson(),
       );
       if (response.statusCode == 200) {
         return Result.ok(
