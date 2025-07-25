@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:scmp_mobile_assg/models/exceptions/unauthorized_exception.dart';
 import 'package:scmp_mobile_assg/models/requests/fetch_staff_list_request.dart';
 import 'package:scmp_mobile_assg/models/requests/login_request.dart';
+import 'package:scmp_mobile_assg/models/responses/error_response.dart';
 import 'package:scmp_mobile_assg/models/responses/login_response.dart';
 import 'package:scmp_mobile_assg/models/responses/staff_list_response.dart';
 import 'package:scmp_mobile_assg/models/result.dart';
@@ -30,9 +31,11 @@ class ApiService {
         return Result.ok(
           LoginResponse.fromJson(json.decode(utf8.decode(response.bodyBytes))),
         );
-      } else {
-        return Result.error(HttpException('Invalid response'));
       }
+      final errorResponse = ErrorResponse.fromJson(
+        json.decode(utf8.decode(response.bodyBytes)),
+      );
+      return Result.error(HttpException(errorResponse.error));
     } on Exception catch (exception) {
       return Result.error(exception);
     } finally {
@@ -40,7 +43,9 @@ class ApiService {
     }
   }
 
-  Future<Result<StaffListResponse>> fetchStaffList(FetchStaffListRequest request) async {
+  Future<Result<StaffListResponse>> fetchStaffList(
+    FetchStaffListRequest request,
+  ) async {
     final client = http.Client();
     try {
       final response = await client.get(
@@ -48,15 +53,21 @@ class ApiService {
       );
       if (response.statusCode == 200) {
         return Result.ok(
-          StaffListResponse.fromJson(json.decode(utf8.decode(response.bodyBytes))),
+          StaffListResponse.fromJson(
+            json.decode(utf8.decode(response.bodyBytes)),
+          ),
         );
       }
 
-      if(response.statusCode == 401) {
+      if (response.statusCode == 401) {
         return Result.error(UnauthorizedException());
       }
 
-      return Result.error(HttpException('Invalid response'));
+      final errorResponse = ErrorResponse.fromJson(
+        json.decode(utf8.decode(response.bodyBytes)),
+      );
+
+      return Result.error(HttpException(errorResponse.error));
     } on Exception catch (exception) {
       return Result.error(exception);
     } finally {
