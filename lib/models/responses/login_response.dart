@@ -10,4 +10,10 @@ class LoginResponse {
       token: json['token'] as String,
     );
   }
+
+  toJson() {
+    return {
+      'token': token,
+    };
+  }
 }

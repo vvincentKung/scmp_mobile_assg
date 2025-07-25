@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:scmp_mobile_assg/widgets/login/login_page_view_model.dart';
 import 'package:scmp_mobile_assg/models/requests/login_request.dart';
@@ -6,18 +7,9 @@ import 'package:scmp_mobile_assg/models/responses/login_response.dart';
 import 'package:scmp_mobile_assg/models/result.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 
-class MockLoginRepository extends Mock implements LoginRepository {
+import 'login_page_view_model_test.mocks.dart';
 
-  @override
-  Future<Result<LoginResponse>> login(LoginRequest? request) async {
-    return super.noSuchMethod(
-      Invocation.method(#login, [request]),
-      returnValue: Future.value(Ok(LoginResponse(token: ''))),
-      returnValueForMissingStub: Future.value(Ok(LoginResponse(token: ''))),
-    );
-  }
-}
-
+@GenerateNiceMocks([MockSpec<LoginRepository>()])
 void main() {
   late MockLoginRepository mockRepository;
   late LoginPageViewModel viewModel;
@@ -76,7 +68,9 @@ void main() {
 
     group('login', () {
       test('success', () async {
-        when(mockRepository.login(any)).thenAnswer((_) async => Ok(LoginResponse(token: 'mock_token')));
+        final result = Ok(LoginResponse(token: 'mock_token'));
+        provideDummy<Result<LoginResponse>>(result);
+        when(mockRepository.login(any)).thenAnswer((_) async => result);
 
         await viewModel.login();
         expect(viewModel.token, 'mock_token');
@@ -84,7 +78,9 @@ void main() {
 
       test('fail', () async {
         final exception = Exception('Login failed');
-        when(mockRepository.login(any)).thenAnswer((_) async => Error<LoginResponse>(exception));
+        final error = Error<LoginResponse>(exception);
+        provideDummy<Result<LoginResponse>>(error);
+        when(mockRepository.login(any)).thenAnswer((_) async => error);
 
         await viewModel.login();
         expect(viewModel.error, exception);
