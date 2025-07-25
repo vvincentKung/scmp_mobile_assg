@@ -5,13 +5,13 @@ class LoginForm extends StatelessWidget {
   const LoginForm({
     super.key,
     required this.formKey,
-    required this.onEmailChanged,
-    required this.onPasswordChanged,
+    required this.emailController,
+    required this.passwordController,
   });
 
   final GlobalKey<FormState> formKey;
-  final Function(String) onEmailChanged;
-  final Function(String) onPasswordChanged;
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,10 @@ class LoginForm extends StatelessWidget {
             ),
           ),
           TextFormField(
+            controller: emailController,
             decoration: InputDecoration(labelText: 'Email'),
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-            onChanged: onEmailChanged,
             validator: (value) {
               if (!validateEmail(value)) {
                 return 'Invalid email address';
@@ -42,10 +42,10 @@ class LoginForm extends StatelessWidget {
             },
           ),
           TextFormField(
+            controller: passwordController,
             decoration: InputDecoration(labelText: 'Password'),
             keyboardType: TextInputType.visiblePassword,
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-            onChanged: onPasswordChanged,
             obscureText: true,
             validator: (value) {
               if (!validatePassword(value)) {
