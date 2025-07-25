@@ -28,7 +28,7 @@ class ApiService {
       );
       if (response.statusCode == 200) {
         return Result.ok(
-          LoginResponse.fromJson(json.decode(response.body)),
+          LoginResponse.fromJson(json.decode(utf8.decode(response.bodyBytes))),
         );
       } else {
         return Result.error(HttpException('Invalid response'));
@@ -48,7 +48,7 @@ class ApiService {
       );
       if (response.statusCode == 200) {
         return Result.ok(
-          StaffListResponse.fromJson(json.decode(response.body)),
+          StaffListResponse.fromJson(json.decode(utf8.decode(response.bodyBytes))),
         );
       }
 
