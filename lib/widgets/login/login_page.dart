@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:scmp_mobile_assg/helpers/exception_helper.dart';
 import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 import 'package:scmp_mobile_assg/services/api_service.dart';
 import 'package:scmp_mobile_assg/widgets/components/loading_indicator.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_button.dart';
+import 'package:scmp_mobile_assg/widgets/login/components/login_error_dialog.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_form.dart';
 import 'package:scmp_mobile_assg/widgets/login/login_page_view_model.dart';
 
@@ -83,7 +87,9 @@ class _LoginPageState extends State<LoginPage> {
     await _viewModel.login();
 
     if (_viewModel.error != null && context.mounted) {
-      //TODO Error handling
+      await showDialog(context: context, barrierDismissible: false, builder: (context) {
+        return LoginErrorDialog(message: getExceptionMessage(_viewModel.error));
+      });
       return;
     }
 
