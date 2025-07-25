@@ -5,6 +5,7 @@ import 'package:scmp_mobile_assg/helpers/exception_helper.dart';
 import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 import 'package:scmp_mobile_assg/services/api_service.dart';
+import 'package:scmp_mobile_assg/services/secure_storage_service.dart';
 import 'package:scmp_mobile_assg/widgets/components/loading_indicator.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_button.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_error_dialog.dart';
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _viewModel = LoginPageViewModel(LoginRepository(ApiService()));
+  final _viewModel = LoginPageViewModel(LoginRepository(ApiService(), SecureStorageService()));
 
   @override
   void initState() {
