@@ -7,7 +7,7 @@ import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 import 'package:scmp_mobile_assg/services/api_service.dart';
 import 'package:scmp_mobile_assg/services/secure_storage_service.dart';
 import 'package:scmp_mobile_assg/widgets/components/loading_indicator.dart';
-import 'package:scmp_mobile_assg/widgets/login/components/login_button.dart';
+import 'package:scmp_mobile_assg/widgets/components/main_button.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_error_dialog.dart';
 import 'package:scmp_mobile_assg/widgets/login/components/login_form.dart';
 import 'package:scmp_mobile_assg/widgets/login/login_page_view_model.dart';
@@ -23,7 +23,9 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _viewModel = LoginPageViewModel(LoginRepository(ApiService(), SecureStorageService()));
+  final _viewModel = LoginPageViewModel(
+    LoginRepository(ApiService(), SecureStorageService()),
+  );
 
   @override
   void initState() {
@@ -65,17 +67,17 @@ class _LoginPageState extends State<LoginPage> {
                     emailController: _emailController,
                     passwordController: _passwordController,
                   ),
-                  LoginButton(
+                  MainButton(
                     onPressed: _viewModel.isLoading
                         ? null
                         : () => onLoginButtonPressed(context),
+                    title: 'Login',
                   ),
                 ],
               ),
             ),
           ),
-          if (_viewModel.isLoading)
-            LoadingIndicator(),
+          if (_viewModel.isLoading) LoadingIndicator(),
         ],
       ),
     );
@@ -88,9 +90,15 @@ class _LoginPageState extends State<LoginPage> {
     await _viewModel.login();
 
     if (_viewModel.error != null && context.mounted) {
-      await showDialog(context: context, barrierDismissible: false, builder: (context) {
-        return LoginErrorDialog(message: getExceptionMessage(_viewModel.error));
-      });
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return LoginErrorDialog(
+            message: getExceptionMessage(_viewModel.error),
+          );
+        },
+      );
       return;
     }
 
