@@ -24,4 +24,12 @@ class LoginRepository {
       token: token,
     ));
   }
+
+  Future<String?> getToken() async {
+    return await _secureStorageService.getToken();
+  }
+
+  Future<void> deleteToken() async {
+    await _secureStorageService.deleteToken();
+  }
 }

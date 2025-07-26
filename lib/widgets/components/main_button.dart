@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class LoginButton extends StatelessWidget {
-  const LoginButton({super.key, required this.onPressed});
+class MainButton extends StatelessWidget {
+  const MainButton({super.key, required this.onPressed, required this.title});
 
   final VoidCallback? onPressed;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class LoginButton extends StatelessWidget {
         ),
       onPressed: onPressed,
       child: Text(
-        'Login',
+        title,
         style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16.0),
       ),
       ),
