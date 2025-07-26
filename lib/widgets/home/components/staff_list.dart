@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/models/staff.dart';
+import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_list_empty_item.dart';
 import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_list_item.dart';
 
 class StaffList extends StatelessWidget {
@@ -12,6 +13,7 @@ class StaffList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       controller: scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(
         top: 8.0,
         left: 16.0,
@@ -21,8 +23,15 @@ class StaffList extends StatelessWidget {
       itemCount: staffList.length + 1,
       separatorBuilder: (context, index) => const SizedBox(height: 12.0),
       itemBuilder: (context, index) {
-        if (index >= staffList.length) {
-          return hideLoadMoreIndicator ? Container() : Padding(
+        if(staffList.isEmpty){
+          return StaffListEmptyItem();
+        }
+        if (index >= staffList.length && hideLoadMoreIndicator) {
+          return Container();
+        }
+
+        if (index >= staffList.length && !hideLoadMoreIndicator) {
+          return Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
             child: Center(
               child: Text(
