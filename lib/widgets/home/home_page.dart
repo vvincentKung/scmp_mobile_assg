@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
+import 'package:scmp_mobile_assg/models/exceptions/unauthorized_exception.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 import 'package:scmp_mobile_assg/repositories/staffs_repository.dart';
 import 'package:scmp_mobile_assg/services/api_service.dart';
@@ -48,7 +49,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    if (_viewModel.isUnauthenticated) {
+    if (_viewModel.isUnauthenticated || _viewModel.error is UnauthorizedException) {
       Future.microtask(() {
         if (!context.mounted) {
           return;
@@ -70,8 +71,6 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.logout),
             onPressed: () async {
               await _viewModel.deleteToken();
-              if (!context.mounted) return;
-              _navigatorManager.navigateToLogin(context);
             },
           ),
         ],

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/models/requests/fetch_staff_list_request.dart';
 import 'package:scmp_mobile_assg/models/responses/staff_list_response.dart';
 import 'package:scmp_mobile_assg/models/result.dart';
@@ -71,9 +70,10 @@ class HomePageViewModel extends BaseViewModel {
     isLoading = true;
     notifyListeners();
     await _loginRepository.deleteToken();
+    _token = '';
+    _isUnauthenticated = true;
     isLoading = false;
     notifyListeners();
-    firstLoad();
   }
 
   Future<void> refresh() async {
