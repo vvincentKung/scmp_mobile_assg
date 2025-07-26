@@ -40,6 +40,24 @@ class StaffListResponse {
             'support': support.toJson(),
         };
     }
+
+  copyWith({
+    int? page,
+    int? perPage,
+    int? total,
+    int? totalPages,
+    List<Staff>? data,
+    StaffListResponseSupport? support,
+  }) {
+    return StaffListResponse(
+      page: page ?? this.page,
+      perPage: perPage ?? this.perPage,
+      total: total ?? this.total,
+      totalPages: totalPages ?? this.totalPages,
+      data: data ?? this.data,
+      support: support ?? this.support,
+    );
+  }
 }
 
 class StaffListResponseSupport {

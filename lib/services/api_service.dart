@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:http/http.dart' as http;
 import 'package:scmp_mobile_assg/models/exceptions/unauthorized_exception.dart';
@@ -35,8 +36,8 @@ class ApiService {
         json.decode(utf8.decode(response.bodyBytes)),
       );
       return Result.error(HttpException(errorResponse.error));
-    } on Exception catch (exception) {
-      return Result.error(exception);
+    } on Exception catch (_) {
+      return Result.error(Exception('Failed to login'));
     } finally {
       client.close();
     }
@@ -68,10 +69,23 @@ class ApiService {
       );
 
       return Result.error(HttpException(errorResponse.error));
-    } on Exception catch (exception) {
-      return Result.error(exception);
+    } on Exception catch (_) {
+      return Result.error(Exception('Failed to fetch staff list'));
     } finally {
       client.close();
+    }
+  }
+
+  Future<Result<Uint8List>> downloadStaffImage(
+    http.Client client,
+    String url,
+    String fileName,
+  ) async {
+    try {
+      final response = await client.get(Uri.parse(url));
+      return Ok(response.bodyBytes);
+    } catch (_) {
+      return Error(Exception('Failed to download image'));
     }
   }
 }

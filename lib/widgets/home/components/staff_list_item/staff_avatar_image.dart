@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_default_icon.dart';
+import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_avatar_file_image.dart';
+import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_avatar_network_image.dart';
+import 'package:scmp_mobile_assg/widgets/home/helpers/staff_avatar_image_helper.dart';
 
 class StaffAvatarImage extends StatelessWidget {
   const StaffAvatarImage({super.key, required this.avatar});
@@ -12,16 +16,7 @@ class StaffAvatarImage extends StatelessWidget {
       width: 90.0,
       height: 90.0,
       child: ClipOval(
-        child: Image.network(
-          avatar,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => StaffDefaultIcon(),
-          frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-            if (wasSynchronouslyLoaded) return child;
-            if (frame == null) return StaffDefaultIcon();
-            return child;
-          },
-        ),
+        child: isNetworkImage(avatar) ? StaffAvatarNetworkImage(avatar: avatar): StaffAvatarFileImage(avatar: avatar),
       ),
     );
   }
