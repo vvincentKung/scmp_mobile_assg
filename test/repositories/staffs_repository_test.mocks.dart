@@ -4,8 +4,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
+import 'dart:io' as _i13;
+import 'dart:typed_data' as _i11;
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i12;
 import 'package:http/http.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i8;
@@ -16,8 +17,9 @@ import 'package:scmp_mobile_assg/models/responses/login_response.dart' as _i5;
 import 'package:scmp_mobile_assg/models/responses/staff_list_response.dart'
     as _i9;
 import 'package:scmp_mobile_assg/models/result.dart' as _i4;
+import 'package:scmp_mobile_assg/models/staff.dart' as _i14;
 import 'package:scmp_mobile_assg/services/api_service.dart' as _i2;
-import 'package:scmp_mobile_assg/services/secure_storage_service.dart' as _i11;
+import 'package:scmp_mobile_assg/services/file_service.dart' as _i12;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -82,40 +84,72 @@ class MockApiService extends _i1.Mock implements _i2.ApiService {
                 ),
           )
           as _i3.Future<_i4.Result<_i9.StaffListResponse>>);
-}
 
-/// A class which mocks [SecureStorageService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockSecureStorageService extends _i1.Mock
-    implements _i11.SecureStorageService {
   @override
-  _i3.Future<void> saveToken(
-    _i12.FlutterSecureStorage? storage,
-    String? token,
+  _i3.Future<_i4.Result<_i11.Uint8List>> downloadStaffImage(
+    _i6.Client? client,
+    String? url,
+    String? fileName,
   ) =>
       (super.noSuchMethod(
-            Invocation.method(#saveToken, [storage, token]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            Invocation.method(#downloadStaffImage, [client, url, fileName]),
+            returnValue: _i3.Future<_i4.Result<_i11.Uint8List>>.value(
+              _i8.dummyValue<_i4.Result<_i11.Uint8List>>(
+                this,
+                Invocation.method(#downloadStaffImage, [client, url, fileName]),
+              ),
+            ),
+            returnValueForMissingStub:
+                _i3.Future<_i4.Result<_i11.Uint8List>>.value(
+                  _i8.dummyValue<_i4.Result<_i11.Uint8List>>(
+                    this,
+                    Invocation.method(#downloadStaffImage, [
+                      client,
+                      url,
+                      fileName,
+                    ]),
+                  ),
+                ),
           )
-          as _i3.Future<void>);
+          as _i3.Future<_i4.Result<_i11.Uint8List>>);
+}
+
+/// A class which mocks [FileService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFileService extends _i1.Mock implements _i12.FileService {
+  @override
+  _i3.Future<_i13.File?> saveImageByByte(
+    _i11.Uint8List? bytes,
+    String? fileName,
+  ) =>
+      (super.noSuchMethod(
+            Invocation.method(#saveImageByByte, [bytes, fileName]),
+            returnValue: _i3.Future<_i13.File?>.value(),
+            returnValueForMissingStub: _i3.Future<_i13.File?>.value(),
+          )
+          as _i3.Future<_i13.File?>);
 
   @override
-  _i3.Future<String?> getToken(_i12.FlutterSecureStorage? storage) =>
+  _i3.Future<_i13.File?> saveStaffListAsJson(
+    List<_i14.Staff>? staffs,
+    int? page,
+  ) =>
       (super.noSuchMethod(
-            Invocation.method(#getToken, [storage]),
-            returnValue: _i3.Future<String?>.value(),
-            returnValueForMissingStub: _i3.Future<String?>.value(),
+            Invocation.method(#saveStaffListAsJson, [staffs, page]),
+            returnValue: _i3.Future<_i13.File?>.value(),
+            returnValueForMissingStub: _i3.Future<_i13.File?>.value(),
           )
-          as _i3.Future<String?>);
+          as _i3.Future<_i13.File?>);
 
   @override
-  _i3.Future<void> deleteToken(_i12.FlutterSecureStorage? storage) =>
+  _i3.Future<List<_i14.Staff>> loadStaffListFromJson(int? page) =>
       (super.noSuchMethod(
-            Invocation.method(#deleteToken, [storage]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            Invocation.method(#loadStaffListFromJson, [page]),
+            returnValue: _i3.Future<List<_i14.Staff>>.value(<_i14.Staff>[]),
+            returnValueForMissingStub: _i3.Future<List<_i14.Staff>>.value(
+              <_i14.Staff>[],
+            ),
           )
-          as _i3.Future<void>);
+          as _i3.Future<List<_i14.Staff>>);
 }

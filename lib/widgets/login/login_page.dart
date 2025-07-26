@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/helpers/exception_helper.dart';
 import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
