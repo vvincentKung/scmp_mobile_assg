@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
+import 'package:scmp_mobile_assg/repositories/staffs_repository.dart';
 import 'package:scmp_mobile_assg/services/api_service.dart';
 import 'package:scmp_mobile_assg/services/secure_storage_service.dart';
 import 'package:scmp_mobile_assg/widgets/components/loading_indicator.dart';
@@ -17,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   final _navigatorManager = NavigatorManager();
   final _viewModel = HomePageViewModel(
     LoginRepository(ApiService(), SecureStorageService()),
+    StaffsRepository(ApiService(), SecureStorageService()),
   );
 
   @override
@@ -24,7 +26,7 @@ class _HomePageState extends State<HomePage> {
     _viewModel.addListener(() {
       setState(() {});
     });
-    _viewModel.fetchToken();
+    _viewModel.firstLoad();
     super.initState();
   }
 

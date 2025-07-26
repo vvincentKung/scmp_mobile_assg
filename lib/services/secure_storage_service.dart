@@ -12,16 +12,8 @@ import 'package:scmp_mobile_assg/models/responses/staff_list_response.dart';
 import 'package:scmp_mobile_assg/models/result.dart';
 
 class SecureStorageService {
-  final storage = FlutterSecureStorage(
-    aOptions: const AndroidOptions(
-      encryptedSharedPreferences: true,
-      storageCipherAlgorithm: StorageCipherAlgorithm.AES_GCM_NoPadding,
-    ),
-    iOptions: const IOSOptions(
-      accessibility: KeychainAccessibility.first_unlock,
-    ),
-  );
-  static final SecureStorageService _instance = SecureStorageService._internal();
+  static final SecureStorageService _instance =
+      SecureStorageService._internal();
 
   factory SecureStorageService() {
     return _instance;
@@ -29,15 +21,15 @@ class SecureStorageService {
 
   SecureStorageService._internal();
 
-  Future<void> saveToken(String token) async {
+  Future<void> saveToken(FlutterSecureStorage storage, String token) async {
     await storage.write(key: 'token', value: token);
   }
 
-  Future<String?> getToken() async {
+  Future<String?> getToken(FlutterSecureStorage storage) async {
     return await storage.read(key: 'token');
   }
 
-  Future<void> deleteToken() async {
+  Future<void> deleteToken(FlutterSecureStorage storage) async {
     await storage.delete(key: 'token');
   }
 }

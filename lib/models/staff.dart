@@ -22,4 +22,14 @@ class Staff {
             avatar: json['avatar'],
         );
     }
+
+    toJson() {
+        return {
+            'id': id,
+            'email': email,
+            'first_name': firstName,
+            'last_name': lastName,
+            'avatar': avatar,
+        };
+    }
 }

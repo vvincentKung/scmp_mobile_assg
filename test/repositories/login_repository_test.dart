@@ -29,12 +29,12 @@ void main() {
       test('success', () async {
         final result = Result.ok(LoginResponse(token: 'abc123'));
         provideDummy(result);
-        when(mockApiService.login(any)).thenAnswer((_) async => result);
+        when(mockApiService.login(any,any)).thenAnswer((_) async => result);
         when(
-          mockSecureStorageService.saveToken(any),
+          mockSecureStorageService.saveToken(any,any),
         ).thenAnswer((_) async => {});
         when(
-          mockSecureStorageService.getToken(),
+          mockSecureStorageService.getToken(any),
         ).thenAnswer((_) async => 'abc123');
         final actualResult = await loginRepository.login(
           LoginRequest(email: 'email', password: 'password'),
@@ -49,12 +49,12 @@ void main() {
         final request = LoginRequest(email: 'email', password: 'wrongPassword');
         final result = Result<LoginResponse>.error(Exception('Login failed'));
         provideDummy(result);
-        when(mockApiService.login(any)).thenAnswer((_) async => result);
+        when(mockApiService.login(any,any)).thenAnswer((_) async => result);
         when(
-          mockSecureStorageService.saveToken(any),
+          mockSecureStorageService.saveToken(any,any),
         ).thenAnswer((_) async => {});
         when(
-          mockSecureStorageService.getToken(),
+          mockSecureStorageService.getToken(any),
         ).thenAnswer((_) async => null);
 
         final actualResult = await loginRepository.login(request);
