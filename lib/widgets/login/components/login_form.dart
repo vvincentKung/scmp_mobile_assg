@@ -23,17 +23,25 @@ class LoginForm extends StatelessWidget {
         children: [
           Text(
             'Welcome',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
+            style: Theme.of(context).textTheme.headlineLarge?.copyWith(
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
           TextFormField(
             controller: emailController,
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: InputDecoration(
+              labelText: 'Email',
+              labelStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              errorStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ),
             keyboardType: TextInputType.emailAddress,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             validator: (value) {
               if (!validateEmail(value)) {
                 return 'Invalid email address';
@@ -43,9 +51,19 @@ class LoginForm extends StatelessWidget {
           ),
           TextFormField(
             controller: passwordController,
-            decoration: InputDecoration(labelText: 'Password'),
+            decoration: InputDecoration(
+              labelText: 'Password',
+              labelStyle: Theme.of(context).textTheme.titleSmall?.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+              errorStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ),
             keyboardType: TextInputType.visiblePassword,
-            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             obscureText: true,
             validator: (value) {
               if (!validatePassword(value)) {

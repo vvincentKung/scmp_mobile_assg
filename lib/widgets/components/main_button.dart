@@ -15,11 +15,13 @@ class MainButton extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.primary,
           padding: const EdgeInsets.symmetric(vertical: 12.0),
         ),
-      onPressed: onPressed,
-      child: Text(
-        title,
-        style: TextStyle(color: Theme.of(context).colorScheme.onPrimary, fontSize: 16.0),
-      ),
+        onPressed: onPressed,
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+        ),
       ),
     );
   }

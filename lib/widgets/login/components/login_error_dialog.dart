@@ -13,7 +13,7 @@ class LoginErrorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Login Error'),
+      title: Text('Login Failed'),
       content: Text(message),
       actions: [
         TextButton(
