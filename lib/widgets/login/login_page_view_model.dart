@@ -1,15 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/models/requests/login_request.dart';
 import 'package:scmp_mobile_assg/models/responses/login_response.dart';
 import 'package:scmp_mobile_assg/models/result.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
+import 'package:scmp_mobile_assg/widgets/home/base_view_model.dart';
 
-class LoginPageViewModel extends ChangeNotifier {
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  Exception? _error;
-  Exception? get error => _error;
+class LoginPageViewModel extends BaseViewModel {
 
   final LoginRepository _loginRepository;
 
@@ -34,7 +29,7 @@ class LoginPageViewModel extends ChangeNotifier {
   }
 
   Future login() async {
-    _isLoading = true;
+    isLoading = true;
     notifyListeners();
     final response = await _loginRepository.login(
       LoginRequest(email: email, password: password),
@@ -43,14 +38,14 @@ class LoginPageViewModel extends ChangeNotifier {
       case Ok<LoginResponse>():
         final result = response.value;
         _token = result.token;
-        _error = null;
+        error = null;
         break;
       case Error<LoginResponse>():
-        _error = response.error;
+        error = response.error;
         _token = '';
         break;
     }
-    _isLoading = false;
+    isLoading = false;
     notifyListeners();
   }
 

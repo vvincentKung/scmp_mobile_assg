@@ -84,7 +84,7 @@ void main() {
         });
       });
       group('token not found', () {
-        test('isUnauthenticated is true', () async {
+        test('isUnauthenticated', () async {
           when(mockLoginRepository.getToken()).thenAnswer((_) async => '');
           await viewModel.firstLoad();
           expect(viewModel.isUnauthenticated, true);
@@ -423,6 +423,22 @@ void main() {
           await viewModel.loadMore();
           expect(viewModel.hideLoadMoreIndicator, true);
         });
+      });
+    });
+
+    group('#deleteToken', () {
+      test('token', () async {
+        when(mockLoginRepository.deleteToken()).thenAnswer((_) async {});
+
+        await viewModel.deleteToken();
+        expect(viewModel.token, '');
+      });
+
+      test('isUnauthenticated', () async {
+        when(mockLoginRepository.deleteToken()).thenAnswer((_) async {});
+
+        await viewModel.deleteToken();
+        expect(viewModel.isUnauthenticated, true);
       });
     });
   });
