@@ -5,10 +5,9 @@ import 'package:scmp_mobile_assg/models/result.dart';
 import 'package:scmp_mobile_assg/models/staff.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 import 'package:scmp_mobile_assg/repositories/staffs_repository.dart';
+import 'package:scmp_mobile_assg/widgets/home/base_view_model.dart';
 
-class HomePageViewModel extends ChangeNotifier {
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
+class HomePageViewModel extends BaseViewModel {
 
   bool _isRefreshing = false;
   bool get isRefreshing => _isRefreshing;
@@ -18,9 +17,6 @@ class HomePageViewModel extends ChangeNotifier {
 
   bool _hideLoadMoreIndicator = false;
   bool get hideLoadMoreIndicator => _hideLoadMoreIndicator;
-
-  Exception? _error;
-  Exception? get error => _error;
 
   final LoginRepository _loginRepository;
   final StaffsRepository _staffsRepository;
@@ -37,18 +33,18 @@ class HomePageViewModel extends ChangeNotifier {
   var _page = 1;
   int get page => _page;
 
-  bool get isDataUpdating => _isLoading || _isRefreshing || _isLoadingMore;
+  bool get isDataUpdating => isLoading || _isRefreshing || _isLoadingMore;
 
   HomePageViewModel(this._loginRepository, this._staffsRepository);
 
   Future<void> firstLoad() async {
     if (isDataUpdating) return;
-    _isLoading = true;
+    isLoading = true;
     notifyListeners();
     _token = await _loginRepository.getToken() ?? '';
     _isUnauthenticated = _token.isEmpty;
     if (_isUnauthenticated) {
-      _isLoading = false;
+      isLoading = false;
       notifyListeners();
       return;
     }
@@ -58,24 +54,24 @@ class HomePageViewModel extends ChangeNotifier {
     switch (response) {
       case Ok<StaffListResponse>():
         _staffs = response.value.data;
-        _error = null;
+        error = null;
         _hideLoadMoreIndicator = response.value.data.isEmpty;
         break;
       case Error<StaffListResponse>():
-        _error = response.error;
+        error = response.error;
         _hideLoadMoreIndicator = true;
         _staffs = [];
         break;
     }
-    _isLoading = false;
+    isLoading = false;
     notifyListeners();
   }
 
   Future<void> deleteToken() async {
-    _isLoading = true;
+    isLoading = true;
     notifyListeners();
     await _loginRepository.deleteToken();
-    _isLoading = false;
+    isLoading = false;
     notifyListeners();
     firstLoad();
   }
@@ -92,10 +88,10 @@ class HomePageViewModel extends ChangeNotifier {
       case Ok<StaffListResponse>():
         _staffs = response.value.data;
         _hideLoadMoreIndicator = response.value.data.isEmpty;
-        _error = null;
+        error = null;
         break;
       case Error<StaffListResponse>():
-        _error = response.error;
+        error = response.error;
         _hideLoadMoreIndicator = true;
         break;
     }
@@ -112,14 +108,14 @@ class HomePageViewModel extends ChangeNotifier {
     );
     switch (response) {
       case Ok<StaffListResponse>():
-        _error = null;
+        error = null;
         _staffs = [..._staffs, ...response.value.data];
         _hideLoadMoreIndicator = response.value.data.isEmpty;
         if (response.value.data.isEmpty) break;
         _page++;
         break;
       case Error<StaffListResponse>():
-        _error = response.error;
+        error = response.error;
         _hideLoadMoreIndicator = true;
         break;
     }
