@@ -49,6 +49,7 @@ class ApiService {
     try {
       final response = await client.get(
         Uri.parse('https://reqres.in/api/users?page=${request.page}'),
+        headers: {'x-api-key': 'reqres-free-v1'},
       );
       if (response.statusCode == 200) {
         return Result.ok(

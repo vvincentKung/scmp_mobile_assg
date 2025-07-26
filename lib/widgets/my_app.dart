@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scmp_mobile_assg/themes/text_theme.dart';
 import 'package:scmp_mobile_assg/widgets/home/home_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -11,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        textTheme: textTheme,
       ),
       home: const HomePage(),
     );
