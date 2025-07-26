@@ -19,8 +19,7 @@ class ApiService {
 
   ApiService._internal();
 
-  Future<Result<LoginResponse>> login(LoginRequest request) async {
-    final client = http.Client();
+  Future<Result<LoginResponse>> login(http.Client client, LoginRequest request) async {
     try {
       final response = await client.post(
         Uri.parse('https://reqres.in/api/login?delay=5'),
@@ -44,9 +43,9 @@ class ApiService {
   }
 
   Future<Result<StaffListResponse>> fetchStaffList(
+    http.Client client,
     FetchStaffListRequest request,
   ) async {
-    final client = http.Client();
     try {
       final response = await client.get(
         Uri.parse('https://reqres.in/api/users?page=${request.page}'),

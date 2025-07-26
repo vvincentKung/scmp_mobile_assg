@@ -29,6 +29,17 @@ class StaffListResponse {
             support: StaffListResponseSupport.fromJson(json['support']),
         );
     }
+
+    toJson() {
+        return {
+            'page': page,
+            'per_page': perPage,
+            'total': total,
+            'total_pages': totalPages,
+            'data': data.map((e) => e.toJson()).toList(),
+            'support': support.toJson(),
+        };
+    }
 }
 
 class StaffListResponseSupport {
@@ -45,5 +56,12 @@ class StaffListResponseSupport {
             url: json['url'],
             text: json['text'],
         );
+    }
+
+    toJson() {
+        return {
+            'url': url,
+            'text': text,
+        };
     }
 }
