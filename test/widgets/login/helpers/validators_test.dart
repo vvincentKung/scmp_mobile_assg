@@ -1,6 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:flutter_test/flutter_test.dart';
 import 'package:scmp_mobile_assg/widgets/login/helpers/validators.dart';
 
 void main() {

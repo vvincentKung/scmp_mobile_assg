@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_avatar_file_image.dart';
 import 'package:scmp_mobile_assg/widgets/home/components/staff_list_item/staff_avatar_network_image.dart';

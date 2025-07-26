@@ -1,4 +1,3 @@
-import 'package:http/http.dart' as http;
 import 'package:scmp_mobile_assg/factories/api_client_factory.dart';
 import 'package:scmp_mobile_assg/factories/secure_storage_factory.dart';
 import 'package:scmp_mobile_assg/models/requests/login_request.dart';

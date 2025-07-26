@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:scmp_mobile_assg/widgets/login/login_page_view_model.dart';
-import 'package:scmp_mobile_assg/models/requests/login_request.dart';
 import 'package:scmp_mobile_assg/models/responses/login_response.dart';
 import 'package:scmp_mobile_assg/models/result.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
