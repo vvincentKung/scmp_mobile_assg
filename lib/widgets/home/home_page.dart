@@ -3,6 +3,7 @@ import 'package:scmp_mobile_assg/managers/navigator_manager.dart';
 import 'package:scmp_mobile_assg/repositories/login_repository.dart';
 import 'package:scmp_mobile_assg/repositories/staffs_repository.dart';
 import 'package:scmp_mobile_assg/services/api_service.dart';
+import 'package:scmp_mobile_assg/services/file_service.dart';
 import 'package:scmp_mobile_assg/services/secure_storage_service.dart';
 import 'package:scmp_mobile_assg/widgets/components/loading_indicator.dart';
 import 'package:scmp_mobile_assg/widgets/home/components/staff_list.dart';
@@ -18,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   final _navigatorManager = NavigatorManager();
   final _viewModel = HomePageViewModel(
     LoginRepository(ApiService(), SecureStorageService()),
-    StaffsRepository(ApiService(), SecureStorageService()),
+    StaffsRepository(ApiService(), FileService()),
   );
   final _scrollController = ScrollController();
 
