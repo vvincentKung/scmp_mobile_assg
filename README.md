@@ -38,6 +38,11 @@ flutter run
 ```
 **Please connect device/simulator before run this code
 
+### Run Test
+```sh
+flutter test
+```
+
 ### Build App
 ```sh
 flutter build apk
