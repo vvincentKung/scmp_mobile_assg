@@ -41,7 +41,7 @@ class StaffListResponse {
         };
     }
 
-  copyWith({
+  StaffListResponse copyWith({
     int? page,
     int? perPage,
     int? total,

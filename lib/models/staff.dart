@@ -33,7 +33,7 @@ class Staff {
         };
     }
 
-    copyWith({
+    Staff copyWith({
         int? id,
         String? email,
         String? firstName,
