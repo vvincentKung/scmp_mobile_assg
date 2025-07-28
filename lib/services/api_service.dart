@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:scmp_mobile_assg/models/exceptions/unauthorized_exception.dart';
 import 'package:scmp_mobile_assg/models/requests/fetch_staff_list_request.dart';
@@ -13,20 +15,30 @@ import 'package:scmp_mobile_assg/models/result.dart';
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
-
+  final _shortTimeout = Duration(seconds: 3);
+  final _logInTimeout = Duration(seconds: 10);
+  final _downloadTimeout = Duration(seconds: 30);
   factory ApiService() {
     return _instance;
   }
 
   ApiService._internal();
 
-  Future<Result<LoginResponse>> login(http.Client client, LoginRequest request) async {
+  Future<Result<LoginResponse>> login(
+    http.Client client,
+    LoginRequest request,
+  ) async {
     try {
       final response = await client.post(
         Uri.parse('https://reqres.in/api/login?delay=5'),
         headers: {'x-api-key': 'reqres-free-v1'},
         body: request.toJson(),
-      );
+      ).timeout(
+            _logInTimeout,
+            onTimeout: () {
+              throw TimeoutException('Request timed out');
+            },
+          );
       if (response.statusCode == 200) {
         return Result.ok(
           LoginResponse.fromJson(json.decode(utf8.decode(response.bodyBytes))),
@@ -36,7 +48,8 @@ class ApiService {
         json.decode(utf8.decode(response.bodyBytes)),
       );
       return Result.error(HttpException(errorResponse.error));
-    } on Exception catch (_) {
+    } on Exception catch (e) {
+      debugPrint('Error during login: $e');
       return Result.error(Exception('Failed to login'));
     } finally {
       client.close();
@@ -48,10 +61,17 @@ class ApiService {
     FetchStaffListRequest request,
   ) async {
     try {
-      final response = await client.get(
-        Uri.parse('https://reqres.in/api/users?page=${request.page}'),
-        headers: {'x-api-key': 'reqres-free-v1'},
-      );
+      final response = await client
+          .get(
+            Uri.parse('https://reqres.in/api/users?page=${request.page}'),
+            headers: {'x-api-key': 'reqres-free-v1'},
+          )
+          .timeout(
+            _shortTimeout,
+            onTimeout: () {
+              throw TimeoutException('Request timed out');
+            },
+          );
       if (response.statusCode == 200) {
         return Result.ok(
           StaffListResponse.fromJson(
@@ -82,7 +102,14 @@ class ApiService {
     String fileName,
   ) async {
     try {
-      final response = await client.get(Uri.parse(url));
+      final response = await client
+          .get(Uri.parse(url))
+          .timeout(
+            _downloadTimeout,
+            onTimeout: () {
+              throw TimeoutException('Request timed out');
+            },
+          );
       return Ok(response.bodyBytes);
     } catch (_) {
       return Error(Exception('Failed to download image'));
